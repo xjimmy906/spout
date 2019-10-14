@@ -1,0 +1,31 @@
+{
+    "name": "ijiaxin/box-spout",
+    "description": "基于box/spout的一个php快速读写excel文件(csx,xlsx and ods)的php库",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ijiaxin",
+            "email": "xjw.1990@163.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "box/spout": "2.7.3"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "iJiaXin\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://mirrors.aliyun.com/composer/"
+        }
+    ]
+}
