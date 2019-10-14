@@ -3,6 +3,7 @@
     "description": "基于box/spout的一个快速读写excel文件(csx,xlsx and ods)的php库",
     "type": "library",
     "license": "MIT",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "ijiaxin",
@@ -16,7 +17,7 @@
     "require-dev": {
 
     },
-    "minimum-stability": "dev-master",
+    "minimum-stability": "alpha",
     "autoload": {
         "psr-4": {
             "iJiaXin\\": "src/"
