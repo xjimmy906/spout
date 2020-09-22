@@ -2,6 +2,7 @@
 namespace iJiaXin;
 
 use Box\Spout\Common\Type;
+use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Box\Spout\Reader\ReaderFactory;
 use Box\Spout\Reader\ReaderInterface;
 use Box\Spout\Reader\XLSX\Sheet;
@@ -9,7 +10,7 @@ use Box\Spout\Reader\XLSX\Sheet;
 class Reader extends BaseObject
 {
     /**
-     * @var ReaderInterface
+     * @var \Box\Spout\Reader\CSV\Reader|\Box\Spout\Reader\ODS\Reader|\Box\Spout\Reader\XLSX\Reader $reader
      */
     public $reader = null;
 
@@ -36,7 +37,7 @@ class Reader extends BaseObject
     public function init()
     {
         parent::init();
-        $this->reader = ReaderFactory::create($this->type);
+        $this->reader = ReaderEntityFactory::createReaderFromFile($this->fileName);
         $this->reader->setShouldFormatDates(true);
         $this->reader->open($this->fileName);
         $this->setReaderSheet(0);
