@@ -1,21 +1,23 @@
 {
-    "name": "ijiaxin/box-spout",
-    "description": "基于box/spout的一个快速读写excel文件(csx,xlsx and ods)的php库",
+    "name": "xjimmy906/box-spout",
+    "description": "\u57fa\u4e8ebox/spout\u7684\u4e00\u4e2a\u5feb\u901f\u8bfb\u5199excel\u6587\u4ef6(csx,xlsx and ods)\u7684php\u5e93",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "2.0.0-dev",
     "authors": [
         {
-            "name": "uwijux",
+            "name": "xjimmy906",
             "email": "xjw.1990@163.com"
         }
     ],
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.1",
         "box/spout": "~3.1.0"
     },
     "require-dev": {
-
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
     },
     "config": {
         "sort-packages": true
@@ -23,7 +25,7 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "iJiaXin\\": "src/"
+            "xjimmy906\\": "src/"
         }
     },
     "repositories": [

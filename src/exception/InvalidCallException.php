@@ -1,7 +1,7 @@
 <?php
 
 
-namespace iJiaXin\exception;
+namespace xjimmy906\exception;
 
 
 class InvalidCallException extends \Exception

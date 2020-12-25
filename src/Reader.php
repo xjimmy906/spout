@@ -1,38 +1,33 @@
 <?php
-namespace iJiaXin;
+namespace xjimmy906;
 
-use Box\Spout\Common\Type;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
-use Box\Spout\Reader\ReaderFactory;
 use Box\Spout\Reader\ReaderInterface;
-use Box\Spout\Reader\XLSX\Sheet;
 
 class Reader extends BaseObject
 {
     /**
-     * @var \Box\Spout\Reader\CSV\Reader|\Box\Spout\Reader\ODS\Reader|\Box\Spout\Reader\XLSX\Reader $reader
+     * @var \Box\Spout\Reader\CSV\Reader|\Box\Spout\Reader\ODS\Reader|\Box\Spout\Reader\XLSX\Reader|ReaderInterface $reader
      */
     public $reader = null;
 
     /**
-     * @var string 导入或导出的文件格式
-     */
-    public $type = Type::XLSX;
-
-    /**
-     * @var string 导入或导出的文件路径名
+     * @var string 导入的文件路径名
      */
     public $fileName = "";
 
     /**
-     * @var Sheet|\Box\Spout\Reader\CSV\Sheet|\Box\Spout\Reader\ODS\Sheet $sheet
+     * @var \Box\Spout\Reader\XLSX\Sheet|\Box\Spout\Reader\CSV\Sheet|\Box\Spout\Reader\ODS\Sheet| $sheet
      */
     public $sheet = null;
 
     /**
+     *
      * @throws \Box\Spout\Common\Exception\IOException
      * @throws \Box\Spout\Common\Exception\UnsupportedTypeException
      * @throws \Box\Spout\Reader\Exception\ReaderNotOpenedException
+     * @since 2020/12/24 16:33
+     * @author xJimmy906
      */
     public function init()
     {
@@ -46,6 +41,8 @@ class Reader extends BaseObject
     /**
      * 迭代器获取一行数据
      * @return \Box\Spout\Reader\CSV\RowIterator|\Box\Spout\Reader\ODS\RowIterator|\Box\Spout\Reader\XLSX\RowIterator
+     * @since 2020/12/24 16:33
+     * @author xJimmy906
      */
     public function rowIterator(){
         return $this->sheet->getRowIterator();
@@ -54,6 +51,8 @@ class Reader extends BaseObject
     /**
      * 获取sheet中数据条数
      * @return int
+     * @since 2020/12/24 17:54
+     * @author xJimmy906
      */
     public function count(){
         return iterator_count($this->sheet->getRowIterator());
@@ -63,9 +62,10 @@ class Reader extends BaseObject
     /**
      * 返回所有sheet
      * getAllSheet
-     * @return \Iterator
+     * @return \Box\Spout\Reader\IteratorInterface|\Iterator
      * @throws \Box\Spout\Reader\Exception\ReaderNotOpenedException
-     * datetime
+     * @since 2020/12/24 16:32
+     * @author xJimmy906
      */
     public function getAllSheet(){
         return $this->reader->getSheetIterator();
@@ -84,7 +84,7 @@ class Reader extends BaseObject
             throw new \Exception("by参数取值限定为index、name");
         }
         /**
-         * @var Sheet|\Box\Spout\Reader\CSV\Sheet|\Box\Spout\Reader\ODS\Sheet $sheet
+         * @var \Box\Spout\Reader\XLSX\Sheet|\Box\Spout\Reader\CSV\Sheet|\Box\Spout\Reader\ODS\Sheet $sheet
          */
         foreach ($this->getAllSheet() as $sheet){
             $action = "get".ucfirst($by);
@@ -94,5 +94,19 @@ class Reader extends BaseObject
             }
         }
         return $this;
+    }
+
+    /**
+     * 释放资源
+     */
+    public function finish(){
+        $this->reader->close();
+    }
+
+    /**
+     * destruct
+     */
+    public function __destruct() {
+        $this->finish();
     }
 }

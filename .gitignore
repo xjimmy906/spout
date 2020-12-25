@@ -1,5 +1,5 @@
 .idea
+!vendor/.gitkeep
 vendor/
-composer.lock
 .DS_Store
 .vscode

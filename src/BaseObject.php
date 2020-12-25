@@ -1,12 +1,12 @@
 <?php
 
 
-namespace iJiaXin;
+namespace xjimmy906;
 
 
-use iJiaXin\exception\InvalidCallException;
-use iJiaXin\exception\UnknownMethodException;
-use iJiaXin\exception\UnknownPropertyException;
+use xjimmy906\exception\InvalidCallException;
+use xjimmy906\exception\UnknownMethodException;
+use xjimmy906\exception\UnknownPropertyException;
 
 class BaseObject
 {

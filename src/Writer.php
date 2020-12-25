@@ -1,20 +1,19 @@
 <?php
 
-namespace iJiaXin;
+namespace xjimmy906;
 
 
+use Box\Spout\Common\Entity\Style\Color;
+use Box\Spout\Common\Entity\Style\Style;
 use Box\Spout\Common\Type;
-use Box\Spout\Writer\Style\Color;
-use Box\Spout\Writer\Style\Style;
-use Box\Spout\Writer\Style\StyleBuilder;
-use Box\Spout\Writer\WriterFactory;
-use Box\Spout\Writer\WriterInterface;
+use Box\Spout\Writer\Common\Creator\Style\StyleBuilder;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 
 class Writer extends BaseObject
 {
 
     /**
-     * @var WriterInterface
+     * @var \Box\Spout\Writer\CSV\Writer|\Box\Spout\Writer\CSV\Writer|\Box\Spout\Writer\XLSX\Writer
      */
     public $writer = null;
 
@@ -42,7 +41,7 @@ class Writer extends BaseObject
     public function init()
     {
         parent::init();
-        $this->writer = WriterFactory::create($this->type);
+        $this->writer = WriterEntityFactory::createWriter($this->type);
         if($this->type === Type::CSV) {
             $this->writer->setShouldAddBOM(false);
         }
@@ -54,15 +53,17 @@ class Writer extends BaseObject
     }
 
     /**
-     * @param array      $header
-     * @param Style|null $style
+     * 设置表头,包含默认样式
+     * @param array             $header 数据表头
+     * @param Style|null|array  $style  表头样式
      *
      * @return $this
      * @throws \Box\Spout\Common\Exception\IOException
-     * @throws \Box\Spout\Common\Exception\InvalidArgumentException
      * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
+     * @since 2020/12/24 17:52
+     * @author xJimmy906
      */
-    public function setHeader(array $header,Style $style = null)
+    public function setHeader(array $header, $style = null)
     {
         if($style === null) {
             $style = (new StyleBuilder())
@@ -77,16 +78,18 @@ class Writer extends BaseObject
     }
 
     /**
-     * @param array         $data
-     * @param Style|null    $style
-     * @param callable|null $callable
+     * 一次写入一行
+     * @param array         $data 数据
+     * @param null          $style 数据样式
+     * @param callable|null $callable 回调处理数据
      *
      * @return $this
      * @throws \Box\Spout\Common\Exception\IOException
-     * @throws \Box\Spout\Common\Exception\InvalidArgumentException
      * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
+     * @since 2020/12/24 17:50
+     * @author xJimmy906
      */
-    public function addRow(array $data,Style $style = null,callable $callable = null)
+    public function addRow(array $data,$style = null,callable $callable = null)
     {
         if (is_callable($callable)) {
             $data = $callable($data,$this->writer);
@@ -94,25 +97,33 @@ class Writer extends BaseObject
                 return $this;
             }
         }
-        if($style){
-            $this->writer->addRowWithStyle($data,$style);
-        }else{
-            $this->writer->addRow($data);
+        if(is_array($style)){
+            $cells = [];
+            foreach($data as $key=>$value){
+                $cells[] = WriterEntityFactory::createCell($value,$style[$key] ?? null);
+            }
+            $row = WriterEntityFactory::createRow($cells);
+        }else {
+            $row = WriterEntityFactory::createRowFromArray($data, $style);
         }
+        $this->writer->addRow($row);
         return $this;
     }
 
     /**
-     * @param array         $data
-     * @param Style|null    $style
-     * @param callable|null $callable
+     * 一次写入多行
+     * @param array             $data  数据
+     * @param Style|null|array  $style 数据样式
+     * @param callable|null     $callable 回调处理数据
      *
      * @return $this
      * @throws \Box\Spout\Common\Exception\IOException
      * @throws \Box\Spout\Common\Exception\InvalidArgumentException
      * @throws \Box\Spout\Writer\Exception\WriterNotOpenedException
+     * @since 2020/12/24 17:49
+     * @author xJimmy906
      */
-    public function addRows(array $data,Style $style = null,callable $callable = null)
+    public function addRows(array $data, $style = null,callable $callable = null)
     {
         if (is_callable($callable)) {
             $data = $callable($data,$this->writer);
@@ -120,12 +131,21 @@ class Writer extends BaseObject
                 return $this;
             }
         }
-        var_dump($data);
-        if($style){
-            $this->writer->addRowsWithStyle($data,$style);
-        }else{
-            $this->writer->addRows($data);
+        $rows = [];
+        if(is_array($style)){
+            foreach($data as $value){
+                $cells = [];
+                foreach($value as $k=>$v) {
+                    $cells[] = WriterEntityFactory::createCell($v, $style[$k] ?? null);
+                }
+                $rows[] = WriterEntityFactory::createRow($cells);
+            }
+        }else {
+            foreach($data as $val){
+                $rows[] = WriterEntityFactory::createRowFromArray($val,$style);
+            }
         }
+        $this->writer->addRows($rows);
         return $this;
     }
 
@@ -137,7 +157,7 @@ class Writer extends BaseObject
             $this->writer->close();
             die();
         }
-        $this->reader->close();
+        $this->writer->close();
     }
 
     /**

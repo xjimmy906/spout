@@ -1,6 +1,6 @@
 ### Writer
 ```php
-use iJiaXin\Writer;
+use xjimmy906\Writer;
 use Box\Spout\Common\Type;
 $writer = new Writer([
     'fileName'=>'/Users/xujw/Downloads/test.xlsx',
@@ -16,9 +16,9 @@ $writer->addRows([['lilei','man'],['hanmeimei','woman']]);
 //使用第三参数回调处理数据
 $writer->addRows([['lilei','man'],['hanmeimei','woman']],null,function($data,$w){
     foreach($data as &$val){
-        if($val[1] == "man"){
+        if($val[1] === "man"){
             $val[1] = "男";
-        }elseif([$val[1] == 'woman']){
+        }elseif([$val[1] === 'woman']){
             $val[1] = "女";
         }
     }
@@ -31,18 +31,21 @@ $writer->finish();
 
 ### Reader
 ```php
-use iJiaXin\Reader;
+use xjimmy906\Reader;
 use Box\Spout\Common\Type;
 $reader = new Reader([
     'fileName'=>'/Users/xujw/Downloads/test.xlsx',
-    'type'=>Type::XLSX,
 ]);
 //设置读取的sheet
 $reader->setReaderSheet(0);
 //读取当前sheet中的数据总条数
 $reader->count();
 //迭代器读取每一行数据
-foreach($reader->rowIterator() as $key=>$val){
-    var_dump($key,$val);
+foreach($reader->rowIterator() as $row){
+    //box/spout 3.0.0+ 版本以上返回Row对象，而不是包含行值的数组(3.0.0版本以前返回的为数组)  
+  
+    $rowAsArray = $row->toArray();  //转化为数组,兼容2.0写法
+    // OR
+    $cellsArray = $row->getCells(); //这可以用来访问单元格的详细信息
 }
 ```
