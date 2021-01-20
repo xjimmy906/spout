@@ -120,7 +120,6 @@ class Writer extends BaseObject
                 return $this;
             }
         }
-        var_dump($data);
         if($style){
             $this->writer->addRowsWithStyle($data,$style);
         }else{
