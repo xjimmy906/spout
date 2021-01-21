@@ -1,5 +1,5 @@
 {
-    "name": "xjimmy906/box-spout",
+    "name": "xjimmy906/spout",
     "description": "基于box/spout的一个快速读写excel文件(csx,xlsx and ods)的php库",
     "type": "library",
     "license": "MIT",
