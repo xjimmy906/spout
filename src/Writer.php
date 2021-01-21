@@ -68,7 +68,7 @@ class Writer extends BaseObject
         if($style === null) {
             $style = (new StyleBuilder())
                 ->setFontBold()
-                ->setFontSize(20)
+                ->setFontSize(12)
                 ->setFontColor(Color::BLACK)
                 ->setShouldWrapText()
                 ->build();
