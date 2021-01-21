@@ -1,9 +1,9 @@
 {
     "name": "xjimmy906/box-spout",
-    "description": "\u57fa\u4e8ebox/spout\u7684\u4e00\u4e2a\u5feb\u901f\u8bfb\u5199excel\u6587\u4ef6(csx,xlsx and ods)\u7684php\u5e93",
+    "description": "基于box/spout的一个快速读写excel文件(csx,xlsx and ods)的php库",
     "type": "library",
     "license": "MIT",
-    "version": "2.0.0-dev",
+    "version": "1.0.1",
     "authors": [
         {
             "name": "xjimmy906",
