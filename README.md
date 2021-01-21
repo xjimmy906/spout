@@ -1,4 +1,8 @@
 ### Writer
+基于[box/spout ](https://opensource.box.com/spout/) 的一个快速读写excel文件(csx,xlsx and ods)的php库
+
+[https://opensource.box.com/spout/](https://opensource.box.com/spout/)
+
 ```php
 use xjimmy906\Writer;
 use Box\Spout\Common\Type;
