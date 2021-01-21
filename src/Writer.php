@@ -153,10 +153,6 @@ class Writer extends BaseObject
      * 释放资源
      */
     public function finish(){
-        if($this->download === true){
-            $this->writer->close();
-            die();
-        }
         $this->writer->close();
     }
 
