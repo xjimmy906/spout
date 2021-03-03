@@ -1,8 +1,6 @@
 <?php
 
-
 namespace xjimmy906;
-
 
 use xjimmy906\exception\InvalidCallException;
 use xjimmy906\exception\UnknownMethodException;
