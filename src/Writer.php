@@ -2,7 +2,6 @@
 
 namespace xjimmy906;
 
-
 use Box\Spout\Common\Entity\Style\Color;
 use Box\Spout\Common\Entity\Style\Style;
 use Box\Spout\Common\Type;
